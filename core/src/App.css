@@ -1,0 +1,293 @@
+:root {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    sans-serif;
+  color: #1f2933;
+}
+
+/* Make the Monet painting the global background */
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-image: url("./assets/impression-sunrise.jpg");
+  background-size: 130% auto;     /* wider painting */
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-color: #d6d6d6;
+  background-attachment: fixed;
+}
+
+/* Slight dark overlay so text/cards are readable */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.12); /* lower = lighter, higher = darker */
+  pointer-events: none;
+}
+
+body {
+  background: transparent;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.growth-root {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 40px 16px;
+}
+
+.growth-shell {
+  width: 100%;
+  max-width: 1300px; /* wider page */
+  background: transparent;
+}
+
+/* Frosted header for "Growth Book" */
+.growth-header {
+  text-align: center;
+  margin-bottom: 24px;
+  padding: 16px 24px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.55); /* frosted white glow */
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+.title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.title-row h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.date-save-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.date-input {
+  border-radius: 999px;
+  border: 1px solid #e2e8f0;
+  padding: 6px 10px;
+  font-size: 13px;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.save-button {
+  border-radius: 999px;
+  border: none;
+  padding: 6px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  background: linear-gradient(90deg, #ff8ac2, #ffb86c);
+  color: white;
+  box-shadow: 0 8px 18px rgba(255, 138, 194, 0.35);
+  transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.1s ease;
+}
+
+.save-button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  box-shadow: 0 10px 24px rgba(255, 138, 194, 0.45);
+}
+
+.save-button:disabled {
+  opacity: 0.6;
+  cursor: default;
+  transform: none;
+  box-shadow: none;
+}
+
+.status-row {
+  margin-top: 10px;
+  min-height: 20px;
+}
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid #e5e7eb;
+  color: #4b5563;
+}
+
+.status-chip.success {
+  border-color: #bbf7d0;
+  background: #ecfdf3;
+  color: #166534;
+}
+
+.status-chip.error {
+  border-color: #fecaca;
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+/* Layout for the cards */
+.growth-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Base card styling – frosted glass, like the header */
+.card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(10px);
+  border-radius: 22px;
+  padding: 14px 18px 16px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  overflow: hidden; /* keeps top strip rounded */
+}
+
+/* Colored accent strip at the top of each card */
+.card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 10px;
+  background: var(--card-accent, linear-gradient(135deg, #e5e7eb, #f9fafb));
+}
+
+/* Inner content sits below the accent strip */
+.card-header,
+.card-textarea,
+.happiness-body,
+.char-counter {
+  position: relative;
+  z-index: 1;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.card-header h2 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.card-icon {
+  font-size: 17px;
+}
+
+/* Color accents – just set the top strip color per section */
+.card-schedule {
+  --card-accent: linear-gradient(135deg, #ffeaf7, #ffd9f0);
+}
+
+.card-todo {
+  --card-accent: linear-gradient(135deg, #e4f0ff, #d7e8ff);
+}
+
+.card-goals {
+  --card-accent: linear-gradient(135deg, #e2fbe8, #d4f5dc);
+}
+
+.card-motivation {
+  --card-accent: linear-gradient(135deg, #ffecc7, #ffe0a2);
+}
+
+.card-happiness {
+  --card-accent: linear-gradient(135deg, #ffe0f1, #ffd5f0);
+}
+
+.card-journal {
+  --card-accent: linear-gradient(135deg, #e2edff, #d5e4ff);
+}
+
+/* Textareas & inputs */
+.card-textarea {
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid rgba(209, 213, 219, 0.9);
+  padding: 8px 10px;
+  resize: vertical;
+  min-height: 70px;
+  font-size: 13px;
+  line-height: 1.5;
+  font-family: inherit;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.card-textarea:focus {
+  outline: none;
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.25);
+}
+
+.journal-textarea {
+  min-height: 130px;
+}
+
+.char-counter {
+  margin-top: 4px;
+  font-size: 11px;
+  text-align: right;
+  color: #9ca3af;
+}
+
+/* Happiness slider */
+.happiness-body {
+  padding: 4px 4px 2px;
+}
+
+.happiness-score {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.happiness-slider {
+  width: 100%;
+}
+
+/* Mobile tweaks */
+@media (max-width: 640px) {
+  .growth-root {
+    padding: 20px 10px 32px;
+  }
+
+  .title-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .title-row h1 {
+    font-size: 24px;
+  }
+
+  .card {
+    padding: 10px 14px 12px;
+  }
+}
